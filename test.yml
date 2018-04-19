@@ -1,3 +1,4 @@
+---
 # Test playbook
 - hosts: all
   become: true
@@ -22,7 +23,7 @@
 
           meta1_digits=3
           udp_allowed=yes
-          
+
           ns.storage_policy=THREECOPIES
           ns.chunk_size=10485760
           ns.service_update_policy=meta2=KEEP|3|1|;rdir=KEEP|3|1|;
