@@ -1,0 +1,14 @@
+---
+- src: https://github.com/open-io/ansible-role-openio-repository.git
+  version: master
+  name: repository
+
+- src: https://github.com/open-io/ansible-role-openio-gridinit.git
+  version: master
+  name: gridinit
+
+- src: https://github.com/open-io/ansible-role-openio-conscience.git
+  version: master
+  name: conscience
+
+...
