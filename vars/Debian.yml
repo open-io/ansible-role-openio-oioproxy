@@ -1,0 +1,6 @@
+# roles/oioproxy/vars/Debian.yml
+# Distribution-specific variables for Ubuntu, Debian, ...
+---
+oioproxy_packages:
+  - openio-sds
+...

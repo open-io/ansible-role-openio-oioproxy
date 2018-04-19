@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+[{{ openio_oioproxy_namespace }}]
+{% for option in openio_oioproxy_options %}
+{{ option }}
+{% endfor %}

@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+[Service.{{ openio_oioproxy_namespace }}-oioproxy-{{ openio_oioproxy_serviceid }}]
+command=/usr/bin/oio-proxy -p /run/oio/sds/{{ openio_oioproxy_namespace }}-oioproxy-{{ openio_oioproxy_serviceid }}.pid -s OIO,{{ openio_oioproxy_namespace }},oioproxy,{{ openio_oioproxy_serviceid }} -O Config=/etc/oio/sds/{{ openio_oioproxy_namespace }}/oioproxy-{{ openio_oioproxy_serviceid }}/oioproxy-{{ openio_oioproxy_serviceid }}.conf {{ openio_oioproxy_bind_address }}:{{ openio_oioproxy_bind_port }} {{ openio_oioproxy_namespace }}
+enabled=true
+start_at_boot=true
+on_die=respawn
+group={{ openio_oioproxy_namespace }},oioproxy,{{ openio_oioproxy_serviceid }}
+uid=openio
+gid=openio
+env.PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin

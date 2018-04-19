@@ -1,0 +1,83 @@
+# roles/oioproxy/tasks/main.yml
+---
+- name: "Include {{ ansible_distribution }} variables"
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+  tags: install
+
+- name: Create the 'openio' group
+  group:
+    name: openio
+    gid: "{{ openio_group_openio_gid | default('220')}}"
+  tags: install
+
+- name: Create the 'openio' user
+  user:
+    name: openio
+    comment: "openio account"
+    uid: "{{ openio_user_openio_uid | default('120')}}"
+    group: openio
+  tags: install
+
+- name: "Include {{ ansible_distribution }} tasks"
+  include_tasks: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+  tags: install
+
+- name: Test directories presence
+  stat:
+    path: "{{ item }}"
+  register: _dir
+  with_items:
+    - "/etc/gridinit.d/{{ openio_oioproxy_namespace }}"
+    - "{{ openio_oioproxy_sysconfig_dir }}/oioproxy-{{ openio_oioproxy_serviceid }}"
+    - "/var/log/oio/sds/{{ openio_oioproxy_namespace }}/oioproxy-{{ openio_oioproxy_serviceid }}"
+
+- name: Ensure directories exists
+  file:
+    path: "{{ item.item }}"
+    state: directory
+    owner: openio
+    group: openio
+    mode: 0755
+    recurse: true
+  with_items: "{{ _dir.results }}"
+  when: not item.stat.exists
+  tags: install
+
+- name: Generate configuration files
+  template:
+    src: oioproxy.conf.j2
+    dest: "{{ openio_oioproxy_sysconfig_dir }}"
+    owner: openio
+    group: openio
+    mode: 0644
+  tags: install
+  register: _oioproxy_conf
+
+- name: Generate configuration files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: openio
+    group: openio
+    mode: 0644
+  with_items:
+    - src: "oioproxy.conf.j2"
+      dest: "{{ openio_oioproxy_sysconfig_dir }}/\
+        oioproxy-{{ openio_oioproxy_serviceid }}/oioproxy-{{ openio_oioproxy_serviceid }}.conf"
+    - src: "gridinit_oioproxy.conf.j2"
+      dest: "{{ openio_oioproxy_gridinit_dir }}/oioproxy-{{ openio_oioproxy_serviceid }}.conf"
+  register: _oioproxy_conf
+
+- name: restart oioproxy
+  shell: |
+    gridinit_cmd reload
+    gridinit_cmd restart  {{openio_oioproxy_namespace}}-oioproxy-{{openio_oioproxy_serviceid}}
+  when: _oioproxy_conf.changed
+  tags: configure
+...

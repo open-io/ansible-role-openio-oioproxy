@@ -1,0 +1,8 @@
+# roles/oioproxy/handlers/main.yml
+---
+#- name: restart oioproxy
+#  service:
+#    name: "{{ oioproxy_service }}"
+#    state: restarted
+#
+...
