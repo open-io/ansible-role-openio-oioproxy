@@ -10,7 +10,29 @@
   echo "status: "$status
   [[ "${status}" -eq "0" ]]
   [[ "${output}" =~ "TRAVIS" ]]
+}
 
+@test 'List the services types' {
+  run bash -c "curl -s http://${SUT_IP}:6006/v3.0/TRAVIS/conscience/info?what=types"
+  echo "output: "$output
+  echo "status: "$status
+  [[ "${status}" -eq "0" ]]
+  [[ "${output}" =~ "oiofs" ]]
+}
+
+@test 'Register a rawx' {
+  run bash -c "curl -s -d '{\"type\":\"rawx\", \"addr\":\"127.0.0.1:6121\", \"tags\": { \"stat.cpu\": 42, \"stat.idle\": 42, \"stat.io\": 42 }}' -H \"Content-Type: application/json\" -X POST  http://${SUT_IP}:6006/v3.0/TRAVIS/conscience/register"
+  echo "output: "$output
+  echo "status: "$status
+  [[ "${status}" -eq "0" ]]
+}
+
+@test 'Rawx is present' {
+  run bash -c "curl -s http://${SUT_IP}:6006/v3.0/TRAVIS/conscience/list?type=rawx"
+  echo "output: "$output
+  echo "status: "$status
+  [[ "${status}" -eq "0" ]]
+  [[ "${output}" =~ "127.0.0.1:6121" ]]
 }
 
 @test 'Specific configurations' {
