@@ -21,7 +21,7 @@
           proxy=172.17.0.2:6006
           event-agent=beanstalk://172.17.0.2:6014
 
-          meta1_digits=3
+          ns.meta1_digits=3
           udp_allowed=yes
 
           ns.storage_policy=THREECOPIES
