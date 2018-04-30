@@ -39,5 +39,4 @@
       openio_oioproxy_options:
         - proxy.cache.enabled=off
         - proxy.period.cs.downstream=7
-        
 ...
