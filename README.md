@@ -19,6 +19,7 @@ An Ansible role for oioproxy. Specifically, the responsibilities of this role ar
 | `openio_oioproxy_namespace` | `"OPENIO"` | Namespace OPENIO |
 | `openio_oioproxy_options` | `[]` | List of options |
 | `openio_oioproxy_serviceid` | `"0"` | ID in gridinit |
+| `openio_oioproxy_version` | `"*"` | Install a specific version |
 
 ## Dependencies
 ```

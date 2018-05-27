@@ -2,5 +2,5 @@
 # Distribution-specific variables for RHEL, CentOS, ...
 ---
 oioproxy_packages:
-  - openio-sds-server
+  - "openio-sds-server-{{ openio_meta_version }}"
 ...
