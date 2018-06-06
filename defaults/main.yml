@@ -3,7 +3,7 @@
 openio_oioproxy_namespace: "OPENIO"
 openio_oioproxy_serviceid: "0"
 
-openio_oioproxy_version: '*'
+openio_oioproxy_version: 'latest'
 
 openio_oioproxy_bind_address: "{{ ansible_default_ipv4.address }}"
 openio_oioproxy_bind_port: 6006

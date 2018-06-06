@@ -2,5 +2,5 @@
 # Distribution-specific variables for Ubuntu, Debian, ...
 ---
 oioproxy_packages:
-  - "openio-sds={{ openio_meta_version }}"
+  - "{{ 'openio-sds' if openio_oioproxy_version == 'latest' else 'openio-sds=' ~ openio_oioproxy_version }}"
 ...
