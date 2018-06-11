@@ -43,3 +43,19 @@
   [[ "${output}" =~ "proxy.period.cs.downstream=7" ]]
   [[ "${output}" =~ "proxy.cache.enabled=off" ]]
 }
+
+@test 'Request status' {
+  run bash -c "curl http://172.17.0.2:6006//v3.0/status"
+  echo "output: "$output
+  echo "status: "$status
+  [[ "${status}" -eq "0" ]]
+  [[ "${output}" =~ 'counter req.time.admin_drop_cache_POST' ]]
+}
+
+@test 'Request config' {
+  run bash -c "curl http://172.17.0.2:6006//v3.0/config"
+  echo "output: "$output
+  echo "status: "$status
+  [[ "${status}" -eq "0" ]]
+  [[ "${output}" =~ 'core.period.refresh.io_idle' ]]
+}
