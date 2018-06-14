@@ -29,6 +29,7 @@
   roles:
     - role: repository
     - role: gridinit
+      openio_gridinit_per_ns: true
       openio_gridinit_namespace: "{{ NS }}"
     - role: conscience
       openio_conscience_namespace: "{{ NS }}"
