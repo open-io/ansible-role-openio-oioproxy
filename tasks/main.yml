@@ -61,7 +61,8 @@
       dest: "{{ openio_oioproxy_sysconfig_dir }}/\
         oioproxy-{{ openio_oioproxy_serviceid }}/oioproxy-{{ openio_oioproxy_serviceid }}.conf"
     - src: "gridinit_oioproxy.conf.j2"
-      dest: "{{ openio_oioproxy_gridinit_dir }}/oioproxy-{{ openio_oioproxy_serviceid }}.conf"
+      dest: "{{ openio_oioproxy_gridinit_dir }}/{{ openio_oioproxy_gridinit_file_prefix }}\
+        oioproxy-{{ openio_oioproxy_serviceid }}.conf"
   register: _oioproxy_conf
 
 - name: restart oioproxy
