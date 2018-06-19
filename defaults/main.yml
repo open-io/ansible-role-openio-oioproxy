@@ -8,6 +8,9 @@ openio_oioproxy_version: 'latest'
 openio_oioproxy_gridinit_dir: "/etc/gridinit.d/{{ openio_oioproxy_namespace }}"
 openio_oioproxy_gridinit_file_prefix: ""
 
+openio_oioproxy_gridinit_on_die: respawn
+openio_oioproxy_gridinit_start_at_boot: true
+
 openio_oioproxy_bind_address: "{{ ansible_default_ipv4.address }}"
 openio_oioproxy_bind_port: 6006
 openio_oioproxy_options: []

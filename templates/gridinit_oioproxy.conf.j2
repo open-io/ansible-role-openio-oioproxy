@@ -2,8 +2,8 @@
 [Service.{{ openio_oioproxy_namespace }}-oioproxy-{{ openio_oioproxy_serviceid }}]
 command=/usr/bin/oio-proxy -p /run/oio/sds/{{ openio_oioproxy_namespace }}-oioproxy-{{ openio_oioproxy_serviceid }}.pid -s OIO,{{ openio_oioproxy_namespace }},oioproxy,{{ openio_oioproxy_serviceid }} -O Config=/etc/oio/sds/{{ openio_oioproxy_namespace }}/oioproxy-{{ openio_oioproxy_serviceid }}/oioproxy-{{ openio_oioproxy_serviceid }}.conf {{ openio_oioproxy_bind_address }}:{{ openio_oioproxy_bind_port }} {{ openio_oioproxy_namespace }}
 enabled=true
-start_at_boot=true
-on_die=respawn
+start_at_boot={{ openio_oioproxy_gridinit_start_at_boot }}
+on_die={{ openio_oioproxy_gridinit_on_die }}
 group={{ openio_oioproxy_namespace }},oioproxy,{{ openio_oioproxy_serviceid }}
 uid=openio
 gid=openio
