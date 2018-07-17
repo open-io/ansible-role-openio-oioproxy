@@ -14,6 +14,7 @@ openio_oioproxy_gridinit_start_at_boot: true
 openio_oioproxy_bind_interface: "{{ ansible_default_ipv4.alias }}"
 openio_oioproxy_bind_address:
   "{{ hostvars[inventory_hostname]['ansible_' + openio_oioproxy_bind_interface]['ipv4']['address'] }}"
+
 openio_oioproxy_bind_port: 6006
 openio_oioproxy_options: []
 #  - proxy.bulk.max.create_many=100
