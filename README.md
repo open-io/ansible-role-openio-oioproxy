@@ -14,7 +14,8 @@ An Ansible role for oioproxy. Specifically, the responsibilities of this role ar
 
 | Variable   | Default | Comments (type)  |
 | :---       | :---    | :---             |
-| `openio_oioproxy_bind_address` | `"{{ ansible_default_ipv4.address }}"` | IP address to bind |
+| `openio_oioproxy_bind_address` | `hostvars[inventory_hostname]['ansible_' + openio_oioproxy_bind_interface]['ipv4']['address']` | IP address to use |
+| `openio_oioproxy_bind_interface` | `ansible_default_ipv4.alias` | NIC name to use |
 | `openio_oioproxy_bind_port` | `6006` | Port number to open |
 | `openio_oioproxy_gridinit_dir` | `/etc/gridinit.d/{{ openio_oioproxy_namespace }}` | Path to copy the gridinit conf |
 | `openio_oioproxy_gridinit_file_prefix` | `""` | Maybe set it to {{ openio_oioproxy_namespace }}- for old gridinit's style |
