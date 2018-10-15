@@ -21,7 +21,7 @@ readonly script_name=$(basename "${0}")
 readonly script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 IFS=$'\t\n'   # Split on newlines and tabs (but not on spaces)
 
-readonly container_id="$(mktemp)"
+# readonly container_id="$(mktemp)"
 readonly role_dir='/etc/ansible/roles/role_under_test'
 if [ "$#" -ne 1 ]; then
     readonly test_playbook="${role_dir}/docker-tests/test.yml"
@@ -32,6 +32,7 @@ readonly requirements="${role_dir}/docker-tests/requirements.yml"
 
 readonly docker_image="cdelgehier/docker_images_ansible"
 readonly image_tag="${docker_image}:${ANSIBLE_VERSION}_${DISTRIBUTION}_${VERSION}"
+readonly container_name="openio_tests"
 
 # Distribution specific settings
 init="/sbin/init"
@@ -39,20 +40,21 @@ run_opts=("--privileged")
 #}}}
 
 main() {
-  configure_environment
+    do_cleanup
+    configure_environment
 
-  start_container
+    start_container
 
-  run_galaxy_install
-  run_syntax_check
-  run_test_playbook
-  run_idempotence_test
+    run_galaxy_install
+    run_syntax_check
+    run_test_playbook
+    run_idempotence_test
 
-  # Uncomment the following line if you want to clean up the
-  # container(s) after running the tests. *Not* cleaning up may be
-  # useful for troubleshooting
+    # Uncomment the following line if you want to clean up the
+    # container(s) after running the tests. *Not* cleaning up may be
+    # useful for troubleshooting
 
-  # cleanup
+    # exit 10
 }
 
 #{{{ Helper functions
@@ -105,15 +107,17 @@ start_container() {
   docker run --detach \
     "${run_opts[@]}" \
     --volume="${PWD}:${role_dir}:ro" \
+    --name "${container_name}" \
     "${image_tag}" \
-    "${init}" \
-    > "${container_id}"
+    "${init}"
+    # "${init}" \
+    # > "${container_id}"
   set +x
 }
 
-get_container_id() {
-  cat "${container_id}"
-}
+# get_container_id() {
+#   cat "${container_id}"
+# }
 
 # Usage: get_container_ip CONTAINER_ID
 #
@@ -131,12 +135,12 @@ get_container_ip() {
 #
 # Run COMMAND on the Docker container
 exec_container() {
-  local id
-  id="$(get_container_id)"
+  # local id
+  # id="$(get_container_id)"
 
   set -x
   docker exec --tty \
-    "${id}" \
+    "${container_name}" \
     env TERM=xterm \
     "${@}"
   set +x
@@ -161,7 +165,7 @@ run_galaxy_install() {
 }
 
 run_idempotence_test() {
-  log 'Running idempotence test' 
+  log 'Running idempotence test'
   local output
   output="$(mktemp)"
 
@@ -181,13 +185,21 @@ run_idempotence_test() {
 }
 
 cleanup() {
-  log 'Cleaning up'
-  local id
-  id="$(get_container_id)"
+    rc=$?
+    if [ "$rc" -eq 10 ]; then
+        log 'Cleaning up: user triggered'
+        do_cleanup
+        exit 0
+    elif [ "$rc" -ne 0 ]; then
+        log 'Cleaning up: error'
+        do_cleanup
+        exit "$rc"
+    fi
+}
 
-  docker stop "${id}"
-  docker rm "${id}"
-  rm "${container_id}"
+do_cleanup() {
+    docker stop "${container_name}" || true
+    docker rm "${container_name}" || true
 }
 
 log() {
@@ -199,5 +211,5 @@ log() {
 
 #}}}
 
+trap cleanup EXIT
 main "${@}"
-
