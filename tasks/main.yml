@@ -69,6 +69,8 @@
   shell: |
     gridinit_cmd reload
     gridinit_cmd restart  {{openio_oioproxy_namespace}}-oioproxy-{{openio_oioproxy_serviceid}}
-  when: _oioproxy_conf.changed
+  when:
+    - _oioproxy_conf.changed
+    - not openio_oioproxy_provision_only
   tags: configure
 ...

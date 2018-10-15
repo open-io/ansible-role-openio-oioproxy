@@ -22,6 +22,7 @@ An Ansible role for oioproxy. Specifically, the responsibilities of this role ar
 | `openio_oioproxy_gridinit_start_at_boot` | `true` | Start at system boot |
 | `openio_oioproxy_gridinit_on_die` | `respawn` | Start at system boot |
 | `openio_oioproxy_namespace` | `"OPENIO"` | Namespace OPENIO |
+| `openio_oioproxy_provision_only` | `false` | Provision only, without restarting the services |
 | `openio_oioproxy_options` | `[]` | List of options |
 | `openio_oioproxy_serviceid` | `"0"` | ID in gridinit |
 | `openio_oioproxy_version` | `latest` | Install a specific version |
