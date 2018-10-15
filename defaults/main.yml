@@ -5,6 +5,8 @@ openio_oioproxy_serviceid: "0"
 
 openio_oioproxy_version: 'latest'
 
+openio_oioproxy_provision_only: false
+
 openio_oioproxy_gridinit_dir: "/etc/gridinit.d/{{ openio_oioproxy_namespace }}"
 openio_oioproxy_gridinit_file_prefix: ""
 
