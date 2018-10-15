@@ -27,6 +27,8 @@ readonly yellow='\e[0;33m'
 readonly cyan='\e[0;36m'
 #}}}
 
+export container_name="openio_tests"
+
 main() {
 
   bats=$(find_bats_executable)
