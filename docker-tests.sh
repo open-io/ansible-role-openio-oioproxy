@@ -190,10 +190,6 @@ cleanup() {
         log 'Cleaning up: user triggered'
         do_cleanup
         exit 0
-    elif [ "$rc" -ne 0 ]; then
-        log 'Cleaning up: error'
-        do_cleanup
-        exit "$rc"
     fi
 }
 
