@@ -3,4 +3,5 @@
 ---
 oioproxy_packages:
   - "{{ 'openio-sds' if openio_oioproxy_version == 'latest' else 'openio-sds=' ~ openio_oioproxy_version }}"
+syslog_user: syslog
 ...
