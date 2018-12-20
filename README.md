@@ -38,6 +38,14 @@ An Ansible role for oioproxy. Specifically, the responsibilities of this role ar
   version: master
   name: gridinit
 
+- src: https://github.com/open-io/ansible-role-openio-namespace.git
+  version: master
+  name: namespace
+
+- src: https://github.com/open-io/ansible-role-openio-users.git
+  version: master
+  name: users
+
 - src: https://github.com/open-io/ansible-role-openio-conscience.git
   version: master
   name: conscience
@@ -51,33 +59,11 @@ An Ansible role for oioproxy. Specifically, the responsibilities of this role ar
 - hosts: all
   become: true
   vars:
-    NS: OIO
-  pre_tasks:
-    - name: Ensures namespace directory exists
-      file:
-        dest: "/etc/oio/sds.conf.d"
-        state: directory
-      tags: install
-
-    - name: Copy using the 'content' for inline data
-      copy:
-        content: |
-          [{{ NS }}]
-          # endpoints
-          conscience=172.17.0.2:6000
-          zookeeper=172.17.0.2:6005
-          proxy=172.17.0.2:6006
-          event-agent=beanstalk://172.17.0.2:6014
-
-          meta1_digits=3
-          udp_allowed=yes
-
-          ns.storage_policy=THREECOPIES
-          ns.chunk_size=10485760
-          ns.service_update_policy=meta2=KEEP|3|1|;rdir=KEEP|3|1|;
-
-        dest: "/etc/oio/sds.conf.d/{{ NS }}"
+    NS: OPENIO
   roles:
+    - role: users
+    - role: namespace
+      openio_namespace_name: "{{ NS }}"
     - role: repository
     - role: gridinit
       openio_gridinit_namespace: "{{ NS }}"
@@ -88,30 +74,6 @@ An Ansible role for oioproxy. Specifically, the responsibilities of this role ar
       openio_oioproxy_options:
         - proxy.cache.enabled=off
         - proxy.period.cs.downstream=7
-        #- proxy.bulk.max.create_many=100
-        #- proxy.bulk.max.delete_many=100
-        #- proxy.cache.enabled=on
-        #- proxy.dir_shuffle=on
-        #- proxy.force.master=off
-        #- proxy.outgoing.timeout.common=30.000000
-        #- proxy.outgoing.timeout.config=10.000000
-        #- proxy.outgoing.timeout.conscience=10.000000
-        #- proxy.outgoing.timeout.stat=10.000000
-        #- proxy.period.cs.downstream=5
-        #- proxy.period.cs.upstream=1
-        #- proxy.period.refresh.csurl=30
-        #- proxy.period.refresh.srvtypes=30
-        #- proxy.period.reload.nsinfo=30
-        #- proxy.prefer.master_for_read=off
-        #- proxy.prefer.master_for_write=on
-        #- proxy.prefer.slave_for_read=off
-        #- proxy.quirk.local_scores=off
-        #- proxy.srv_shuffle=on
-        #- proxy.ttl.services.down=5000000
-        #- proxy.ttl.services.known=432000000000
-        #- proxy.ttl.services.local=30000000
-        #- proxy.ttl.services.master=5000000
-        #- proxy.url.path.maxlen=2048
 ...
 ```
 
