@@ -17,7 +17,7 @@
   echo "output: "$output
   echo "status: "$status
   [[ "${status}" -eq "0" ]]
-  [[ "${output}" =~ "oiofs" ]]
+  [[ "${output}" =~ "rawx" ]]
 }
 
 @test 'Register a rawx' {
