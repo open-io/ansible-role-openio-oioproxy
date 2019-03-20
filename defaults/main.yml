@@ -1,7 +1,7 @@
 # roles/oioproxy/defaults/main.yml
 ---
-openio_oioproxy_namespace: "OPENIO"
-openio_oioproxy_serviceid: "0"
+openio_oioproxy_namespace: "{{ namespace | default('OPENIO') }}"
+openio_oioproxy_serviceid: "{{ 0 + openio_legacy_serviceid | d(0) | int }}"
 
 openio_oioproxy_version: 'latest'
 
