@@ -1,0 +1,18 @@
+# {{ ansible_managed }}
+---
+host: {{ openio_oioproxy_bind_address }}
+port: {{ openio_oioproxy_bind_port }}
+type: oioproxy
+{% if openio_oioproxy_location | ipaddr %}
+location: {{ openio_oioproxy_location | replace(".", "-") }}
+{% else %}
+location: {{ openio_oioproxy_location }}
+{% endif %}
+checks:
+  - {type: tcp}
+stats:
+  - {type: oioproxy}
+  - {type: system}
+slots:
+  {{ openio_oioproxy_slots | to_nice_yaml | indent(2) }}
+...

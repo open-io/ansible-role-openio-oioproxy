@@ -24,6 +24,7 @@
   with_items:
     - path: "/etc/gridinit.d/{{ openio_oioproxy_namespace }}"
     - path: "{{ openio_oioproxy_sysconfig_dir }}/{{ openio_oioproxy_servicename }}"
+    - path: "/etc/oio/sds/{{ openio_oioproxy_namespace }}/watch"
     - path: "/var/log/oio/sds/{{ openio_oioproxy_namespace }}/{{ openio_oioproxy_servicename }}"
       owner: "{{ syslog_user }}"
       mode: "0750"
@@ -43,6 +44,8 @@
     - src: "gridinit_oioproxy.conf.j2"
       dest: "{{ openio_oioproxy_gridinit_dir }}/{{ openio_oioproxy_gridinit_file_prefix }}\
         {{ openio_oioproxy_servicename }}.conf"
+    - src: "watch-oioproxy.yml.j2"
+      dest: "{{ openio_oioproxy_sysconfig_dir }}/watch/{{ openio_oioproxy_servicename }}.yml"
   register: _oioproxy_conf
 
 - name: restart oioproxy
