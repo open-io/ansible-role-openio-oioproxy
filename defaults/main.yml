@@ -44,7 +44,9 @@ openio_oioproxy_options: []
 #  - proxy.ttl.services.master=5000000
 #  - proxy.url.path.maxlen=2048
 
-openio_oioproxy_location: "{{ ansible_hostname }}.{{ openio_oioproxy_serviceid }}"
+openio_oioproxy_location: "{{ openio_location_room | default ('') }}{{ openio_location_rack | default ('') }}\
+  {{ openio_location_server | default (ansible_hostname ~ '.') }}{{ openio_oioproxy_serviceid }}"
+
 openio_oioproxy_slots:
   "{{ [ openio_oioproxy_type, openio_oioproxy_type ~ '-' ~ openio_oioproxy_location.split('.')[:-2] \
   | join('-') ] \
