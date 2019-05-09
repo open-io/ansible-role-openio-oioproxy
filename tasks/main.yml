@@ -48,12 +48,37 @@
       dest: "{{ openio_oioproxy_sysconfig_dir }}/watch/{{ openio_oioproxy_servicename }}.yml"
   register: _oioproxy_conf
 
-- name: restart oioproxy
+- name: "restart oioproxy to apply the new configuration"
   shell: |
     gridinit_cmd reload
     gridinit_cmd restart  {{ openio_oioproxy_namespace }}-{{ openio_oioproxy_servicename }}
+  register: _restart_oioproxy
   when:
-    - _oioproxy_conf.changed
+    - _oioproxy_conf is changed
     - not openio_oioproxy_provision_only
   tags: configure
+
+- block:
+    - name: "Ensure oioproxy is started"
+      command: gridinit_cmd start {{ openio_oioproxy_namespace }}-{{ openio_oioproxy_servicename }}
+      register: _start_oioproxy
+      changed_when: '"Success" in _start_oioproxy.stdout'
+      when:
+        - not openio_oioproxy_provision_only
+        - _restart_oioproxy is skipped
+      tags: configure
+
+    - name: check oioproxy
+      uri:
+        url: "http://{{ openio_oioproxy_bind_address }}:{{ openio_oioproxy_bind_port }}/v3.0/status"
+        return_content: true
+        status_code: 200
+      register: _oioproxy_check
+      retries: 3
+      delay: 5
+      until: _oioproxy_check is success
+      changed_when: false
+      when:
+        - not openio_oioproxy_provision_only
+  when: openio_bootstrap | d(false)
 ...
