@@ -7,7 +7,7 @@ An Ansible role for oioproxy. Specifically, the responsibilities of this role ar
 
 ## Requirements
 
-- Ansible 2.4+
+- Ansible 2.9+
 
 ## Role Variables
 
