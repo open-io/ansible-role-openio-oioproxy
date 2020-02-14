@@ -1,4 +1,3 @@
-# roles/oioproxy/defaults/main.yml
 ---
 openio_oioproxy_namespace: "{{ namespace | default('OPENIO') }}"
 openio_oioproxy_serviceid: "{{ 0 + openio_legacy_serviceid | d(0) | int }}"
@@ -53,4 +52,12 @@ openio_oioproxy_slots:
   | join('-') ] \
   if openio_oioproxy_location.split('.') | length > 2 \
   else [ openio_oioproxy_type ] }}"
+
+openio_oioproxy_sysconfig_dir: "/etc/oio/sds/{{ openio_oioproxy_namespace }}"
+openio_oioproxy_servicename: "oioproxy-{{ openio_oioproxy_serviceid }}"
+openio_oioproxy_type: oioproxy
+
+openio_oioproxy_definition_file: >
+  "{{ openio_oioproxy_sysconfig_dir }}/
+  {{ openio_oioproxy_servicename }}/{{ openio_oioproxy_servicename }}.conf"
 ...
