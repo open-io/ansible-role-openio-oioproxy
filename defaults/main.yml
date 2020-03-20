@@ -4,11 +4,11 @@ openio_oioproxy_serviceid: "{{ 0 + openio_legacy_serviceid | d(0) | int }}"
 
 openio_oioproxy_version: 'latest'
 
-openio_oioproxy_provision_only: false
+openio_oioproxy_provision_only: "{{ openio_maintenance_mode | d(false) | bool }}"
 openio_oioproxy_package_upgrade: "{{ openio_package_upgrade | d(false) }}"
 
-openio_oioproxy_gridinit_dir: "/etc/gridinit.d/{{ openio_oioproxy_namespace }}"
-openio_oioproxy_gridinit_file_prefix: ""
+openio_oioproxy_gridinit_dir: "{{ openio_gridinit_d | d('/etc/gridinit.d/' ~ openio_oioproxy_namespace) }}"
+openio_oioproxy_gridinit_file_prefix: "{{ openio_oioproxy_namespace }}-"
 
 openio_oioproxy_gridinit_on_die: respawn
 openio_oioproxy_gridinit_start_at_boot: true
