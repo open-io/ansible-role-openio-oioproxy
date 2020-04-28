@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/open-io/ansible-role-openio-oioproxy.svg?branch=master)](https://travis-ci.org/open-io/ansible-role-openio-oioproxy)
+[![Build Status](https://travis-ci.org/open-io/ansible-role-openio-oioproxy.svg?branch=20.04)](https://travis-ci.org/open-io/ansible-role-openio-oioproxy)
 # Ansible role `oioproxy`
 
 An Ansible role for oioproxy. Specifically, the responsibilities of this role are to:
