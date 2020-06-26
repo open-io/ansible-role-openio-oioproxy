@@ -13,7 +13,7 @@ openio_oioproxy_gridinit_file_prefix: "{{ openio_oioproxy_namespace }}-"
 openio_oioproxy_gridinit_on_die: respawn
 openio_oioproxy_gridinit_start_at_boot: true
 
-openio_oioproxy_bind_interface: "{{ ansible_default_ipv4.alias }}"
+openio_oioproxy_bind_interface: "{{ openio_bind_interface | d(ansible_default_ipv4.alias) }}"
 openio_oioproxy_bind_address: "{{ openio_bind_address \
   | default(hostvars[inventory_hostname]['ansible_' + openio_oioproxy_bind_interface]['ipv4']['address']) }}"
 
