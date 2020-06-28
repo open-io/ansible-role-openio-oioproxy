@@ -25,7 +25,7 @@
     mode: "{{ item.mode | default(0755) }}"
   with_items:
     - path: "{{ openio_oioproxy_sysconfig_dir }}/{{ openio_oioproxy_servicename }}"
-    - path: "/etc/oio/sds/{{ openio_oioproxy_namespace }}/watch"
+    - path: "{{ openio_oioproxy_sysconfig_dir }}/watch"
     - path: "/var/log/oio/sds/{{ openio_oioproxy_namespace }}/{{ openio_oioproxy_servicename }}"
       owner: "{{ syslog_user }}"
       mode: "0750"
